@@ -19,10 +19,10 @@ pipeline {
             agent { label 'build' }
             steps {
                 sh '''
-                    sudo chown jenkins:jenkins /home/jenkins/build
-                    sudo chmod 777 /home/jenkins/build
-                    cd /home/jenkins/build
-                    sudo chown jenkins:jenkins /home/jenkins/build/*
+                    sudo chown jenkins:jenkins /home/jenkins/workspace
+                    sudo chmod 777 /home/jenkins/workspace
+                    cd /home/jenkins/workspace
+                    sudo chown jenkins:jenkins /home/jenkins/workspace/*
                     sudo mvn clean package
                     cd target
                     cp ROOT.war /home/jenkins/build && cd ..
@@ -55,7 +55,7 @@ pipeline {
                     sudo kubectl delete deployment tomcat --ignore-not-found=true
                     sudo kubectl delete pods --all --force --grace-period=0
                     sudo kubectl apply -f deployment.yml
-                    sudo kubectl set image deployment/tomcat mindtreerepo="${IMAGE_REPO}:${IMAGE_TAG}" --record
+                    sudo kubectl set image deployment/tomcat mindtree="${IMAGE_REPO}:${IMAGE_TAG}" --record
                     sudo kubectl apply -f svc.yml
                 '''
             }
